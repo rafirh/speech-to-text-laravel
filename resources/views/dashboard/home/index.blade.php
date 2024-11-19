@@ -93,7 +93,7 @@
               </button>
             </div>
             <div class="col-md-4 mb-2">
-              <button class="btn btn-azure w-100" id="save" data-bs-toggle="modal" data-bs-target="#modalAdd" @if (old('original_text') == null) disabled @endif>
+              <button class="btn btn-azure w-100 need-to-login" id="save" data-bs-toggle="modal" data-bs-target="#modalAdd" @if (old('original_text') == null) disabled @endif>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                   class="icon icon-tabler icons-tabler-outline icon-tabler-device-floppy">

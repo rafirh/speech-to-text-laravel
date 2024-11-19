@@ -18,41 +18,67 @@
             style="background-image: url({{ auth()->user()->avatar_url ?? asset('img/default.jpg') }})"></span>
         </a>
         <div class="text-muted dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-          <a href="{{ route('dashboard.profile.index') }}" class="dropdown-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user me-1" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
-              <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-            </svg>
-            Profile Saya
-          </a>
-          <a href="{{ route('dashboard.auth.change-password') }}" class="dropdown-item">
-            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock me-1" width="24"
-              height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-              stroke-linecap="round" stroke-linejoin="round">
-              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-              <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
-              <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-              <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-            </svg>
-            Ubah Kata Sandi
-          </a>
-          <form action="{{ route('dashboard.auth.logout') }}" method="POST">
-            @csrf
-            <button type="submit" class="dropdown-item">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout me-1" width="24"
+          @if (auth()->user())
+            <a href="{{ route('dashboard.profile.index') }}" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user me-1" width="24"
                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
                 stroke-linecap="round" stroke-linejoin="round">
                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2">
-                </path>
-                <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0"></path>
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
               </svg>
-              Keluar
-            </button>
-          </form>
+              Profile Saya
+            </a>
+            <a href="{{ route('dashboard.auth.change-password') }}" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-lock me-1" width="24"
+                height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
+                <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
+                <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
+              </svg>
+              Ubah Kata Sandi
+            </a>
+            <form action="{{ route('dashboard.auth.logout') }}" method="POST">
+              @csrf
+              <button type="submit" class="dropdown-item">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout me-1" width="24"
+                  height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2">
+                  </path>
+                  <path d="M7 12h14l-3 -3m0 6l3 -3"></path>
+                </svg>
+                Keluar
+              </button>
+            </form>
+          @else
+            <a href="{{ route('auth.index') }}" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-login me-2">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M15 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                <path d="M21 12h-13l3 -3" />
+                <path d="M11 15l-3 -3" />
+              </svg>
+              Masuk
+            </a>
+            <a href="{{ route('auth.register') }}" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-checklist me-2">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M9.615 20h-2.615a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h8a2 2 0 0 1 2 2v8" />
+                <path d="M14 19l2 2l4 -4" />
+                <path d="M9 8h4" />
+                <path d="M9 12h2" />
+              </svg>
+              Daftar
+            </a>
+          @endif
         </div>
       </div>
     </div>
@@ -74,7 +100,7 @@
             </span>
           </a>
         </li>
-        <li class="nav-item {{ Request::is('dashboard/histories*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('dashboard/histories*') ? 'active' : '' }} need-to-login">
           <a class="nav-link" href="{{ route('dashboard.histories.index') }}">
             <span class="nav-link-icon d-lg-inline-block">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
