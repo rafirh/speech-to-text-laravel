@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Login - Speech To Text</title>
+  <title>Register - Speech To Text</title>
   <!-- CSS files -->
   <link href="{{ asset('plugins/tabler/dist/css/tabler.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('plugins/tabler/dist/css/tabler-flags.min.css') }}" rel="stylesheet" />
@@ -40,70 +40,48 @@
       </div>
       <div class="card card-md">
         <div class="card-body">
-          <h2 class="text-center mb-4">Login</h2>
-          <form action="{{ route('auth.authenticate') }}" method="POST" autocomplete="off" novalidate>
+          <h2 class="text-center mb-4">Register</h2>
+          <form action="{{ route('auth.store') }}" method="POST" autocomplete="off" novalidate>
             @csrf
             <div class="mb-3">
+              <label class="form-label required">Nama</label>
+              <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Masukkan nama anda" id="name" value="{{ old('name') }}">
+              @error('name')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
+            </div>
+            <div class="mb-3">
               <label class="form-label required">Email</label>
-              <input type="text" name="email" class="form-control" placeholder="Masukkan email anda" id="email"
-                {{ session('error') ?: 'autofocus' }} value="{{ old('email') }}">
+              <input type="text" name="email" class="form-control @error('email') is-invalid @enderror" placeholder="Masukkan email anda" id="email" value="{{ old('email') }}">
+              @error('email')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="mb-2">
               <label class="form-label required">
                 Password
               </label>
-              <div class="input-group input-group-flat">
-                <input type="password" name="password" class="form-control" placeholder="Masukkan password anda"
-                  id="password" value="{{ old('password') }}">
-                <span class="input-group-text">
-                  <a class="link-secondary" data-bs-toggle="tooltip" id="btnShowPassword" title="Show password"
-                    onclick="event.preventDefault();">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                      viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                      stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <circle cx="12" cy="12" r="2" />
-                      <path
-                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7" />
-                    </svg>
-                  </a>
-                </span>
-              </div>
+              <input type="password" name="password" class="form-control @error('password') is-invalid @enderror" placeholder="Masukkan password anda" id="password" value="{{ old('password') }}">
+              @error('password')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
-            <div class="mb-2">
-              <div class="d-flex">
-                <label class="form-check">
-                  <input type="checkbox" class="form-check-input" name="remember_me" value="1"
-                    {{ old('remember_me') ? 'checked' : '' }}>
-                  <span class="form-check-label">Ingat saya</span>
-                </label>
-              </div>
+            <div class="mb-3">
+              <label class="form-label required">
+                Konfirmasi Password
+              </label>
+              <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" placeholder="Masukkan konfirmasi password anda" id="password_confirmation" value="{{ old('password_confirmation') }}">
+              @error('password_confirmation')
+                <div class="invalid-feedback">{{ $message }}</div>
+              @enderror
             </div>
             <div class="form-footer">
-              <button type="submit" class="btn btn-primary w-100">Masuk</button>
+              <button type="submit" class="btn btn-primary w-100">Daftar</button>
             </div>
           </form>
         </div>
-        <div class="hr-text">Atau</div>
-        <div class="card-body">
-          <div class="row mb-3">
-            <div class="col">
-              <a href="{{ route('auth.redirectToGoogle') }}" class="btn w-100">
-                <img class="google-icon me-2" src="{{ asset('img/sosmed/google.svg') }}" width="20">
-                Masuk dengan Google
-              </a>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              <a href="{{ route('dashboard.home.index') }}" class="btn w-100">
-                Masuk sebagai Guest
-              </a>
-            </div>
-          </div>
-          <div class="text-center text-muted mt-4">
-            Belum punya akun? <a href="{{ route('auth.register') }}">Daftar disini</a>
-          </div>
+        <div class="text-center text-muted pb-4">
+          Sudah punya akun? <a href="{{ route('auth.index') }}">Login disini</a>
         </div>
       </div>
       <div class="text-center text-muted mt-5">
@@ -114,10 +92,6 @@
   <script src="{{ asset('plugins/tabler/dist/js/tabler.min.js?1669759017') }}" defer></script>
   <script src="{{ asset('plugins/tabler/dist/js/demo.min.js?1669759017') }}" defer></script>
   <script>
-    @if ($errors->has('username') || $errors->has('password'))
-      toastr('error', 'Gagal', 'Email dan password wajib diisi!')
-    @endif
-
     @if (session('error'))
       toastr('error', 'Gagal', '{{ session('error') }}')
     @endif
