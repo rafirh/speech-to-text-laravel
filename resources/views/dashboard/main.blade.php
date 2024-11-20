@@ -74,9 +74,9 @@
                   Cancel
                 </a></div>
               <div class="col">
-                <button type="submit" class="btn btn-warning w-100">
+                <a class="btn btn-warning w-100" href="{{ route('auth.index') }}">
                   Login
-                </button>
+                </a>
               </div>
             </div>
           </div>
