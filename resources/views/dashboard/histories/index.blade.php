@@ -111,8 +111,7 @@
                             href="{{ route('dashboard.histories.show', $history->id) }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                              stroke-linejoin="round"
-                              class="icon icon-tabler icons-tabler-outline icon-tabler-file-text">
+                              stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-file-text">
                               <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                               <path d="M14 3v4a1 1 0 0 0 1 1h4" />
                               <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2z" />
@@ -215,55 +214,61 @@
       formDelete.action = event.relatedTarget.dataset.action;
     });
 
-    // Fungsi untuk membuat tabel karakter buruk (bad character table)
-    function buildBadCharTable(pattern) {
-      const badCharTable = new Array(256).fill(-1);
-      for (let i = 0; i < pattern.length; i++) {
-        badCharTable[pattern.charCodeAt(i)] = i;
-      }
-      return badCharTable;
-    }
-
-    // Fungsi Boyer-Moore untuk pencarian substring dalam teks
-    function boyerMooreSearch(text, pattern) {
-      text = text.toLowerCase();
-      pattern = pattern.toLowerCase();
-      const m = pattern.length;
-      const n = text.length;
-
-      if (m > n) {
-        return false; // Jika pola lebih panjang dari teks, tidak mungkin ditemukan
+    class BoyerMooreSearch {
+      constructor(pattern) {
+        this.pattern = pattern.toLowerCase();
+        this.badCharTable = this.buildBadCharTable();
       }
 
-      const badCharTable = buildBadCharTable(pattern);
-      let s = 0; // Posisi di mana pola akan digeser pada teks
+      // Membuat tabel karakter buruk (bad character table)
+      buildBadCharTable() {
+        const badCharTable = new Array(256).fill(-1);
+        for (let i = 0; i < this.pattern.length; i++) {
+          badCharTable[this.pattern.charCodeAt(i)] = i;
+        }
+        return badCharTable;
+      }
 
-      while (s <= (n - m)) {
-        let j = m - 1;
+      // Fungsi untuk melakukan pencarian substring dalam teks
+      search(text) {
+        text = text.toLowerCase();
+        const m = this.pattern.length;
+        const n = text.length;
 
-        // Cocokkan pola dari kanan ke kiri
-        while (j >= 0 && pattern[j] === text[s + j]) {
-          j--;
+        if (m > n) {
+          return false; // Jika pola lebih panjang dari teks, tidak mungkin ditemukan
         }
 
-        // Jika pola cocok sepenuhnya
-        if (j < 0) {
-          return true; // Pola ditemukan, kembali true
-        } else {
-          // Geser pola sesuai tabel karakter buruk
-          s += Math.max(1, j - badCharTable[text.charCodeAt(s + j)]);
-        }
-      }
+        let s = 0; // Posisi di mana pola akan digeser pada teks
 
-      return false; // Pola tidak ditemukan
+        while (s <= (n - m)) {
+          let j = m - 1;
+
+          // Cocokkan pola dari kanan ke kiri
+          while (j >= 0 && this.pattern[j] === text[s + j]) {
+            j--;
+          }
+
+          // Jika pola cocok sepenuhnya
+          if (j < 0) {
+            return true; // Pola ditemukan, kembali true
+          } else {
+            // Geser pola sesuai tabel karakter buruk
+            s += Math.max(1, j - this.badCharTable[text.charCodeAt(s + j)]);
+          }
+        }
+
+        return false; // Pola tidak ditemukan
+      }
     }
 
     // Fungsi pencarian pada array of objects
     function searchInArrayOfObjects(arrayOfObj, pattern) {
       const results = [];
+      const boyerMooreSearch = new BoyerMooreSearch(pattern);
 
       arrayOfObj.forEach((obj, index) => {
-        if (boyerMooreSearch(obj.title, pattern) || boyerMooreSearch(obj.original_text, pattern)) {
+        if (boyerMooreSearch.search(obj.title) || boyerMooreSearch.search(obj.original_text)) {
           results.push({
             index,
             ...obj
