@@ -99,14 +99,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-12">
-                  <div class="mb-3">
-                    <label class="form-label">Paraphrased Content</label>
-                    <div class="form-control-plaintext">
-                      {!! $history->translated_text ?? '-' !!}
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
